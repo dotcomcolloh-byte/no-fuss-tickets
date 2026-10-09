@@ -10,10 +10,13 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthenticatedAdminRouteRouteImport } from './routes/_authenticated/admin/route'
 import { Route as CheckoutEventIdRouteImport } from './routes/checkout.$eventId'
 import { Route as EventsIndexRouteImport } from './routes/events.index'
 import { Route as EventsEventIdRouteImport } from './routes/events.$eventId'
 import { Route as OrdersTokenRouteImport } from './routes/orders.$token'
+import { Route as OrganiserLoginRouteImport } from './routes/organiser.login'
 import { Route as PayTokenRouteImport } from './routes/pay.$token'
 import { Route as TicketsIndexRouteImport } from './routes/tickets.index'
 import { Route as TicketsTokenRouteImport } from './routes/tickets.$token'
@@ -23,6 +26,15 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAdminRouteRoute = AuthenticatedAdminRouteRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const CheckoutEventIdRoute = CheckoutEventIdRouteImport.update({
   id: '/checkout/$eventId',
@@ -42,6 +54,11 @@ const EventsEventIdRoute = EventsEventIdRouteImport.update({
 const OrdersTokenRoute = OrdersTokenRouteImport.update({
   id: '/orders/$token',
   path: '/orders/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OrganiserLoginRoute = OrganiserLoginRouteImport.update({
+  id: '/organiser/login',
+  path: '/organiser/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PayTokenRoute = PayTokenRouteImport.update({
@@ -68,9 +85,11 @@ const ApiPublicPaymentsWebhookRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AuthenticatedAdminRouteRoute
   '/checkout/$eventId': typeof CheckoutEventIdRoute
   '/events/$eventId': typeof EventsEventIdRoute
   '/orders/$token': typeof OrdersTokenRoute
+  '/organiser/login': typeof OrganiserLoginRoute
   '/pay/$token': typeof PayTokenRoute
   '/tickets/$token': typeof TicketsTokenRoute
   '/events/': typeof EventsIndexRoute
@@ -79,9 +98,11 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AuthenticatedAdminRouteRoute
   '/checkout/$eventId': typeof CheckoutEventIdRoute
   '/events/$eventId': typeof EventsEventIdRoute
   '/orders/$token': typeof OrdersTokenRoute
+  '/organiser/login': typeof OrganiserLoginRoute
   '/pay/$token': typeof PayTokenRoute
   '/tickets/$token': typeof TicketsTokenRoute
   '/events': typeof EventsIndexRoute
@@ -91,9 +112,12 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/_authenticated/admin': typeof AuthenticatedAdminRouteRoute
   '/checkout/$eventId': typeof CheckoutEventIdRoute
   '/events/$eventId': typeof EventsEventIdRoute
   '/orders/$token': typeof OrdersTokenRoute
+  '/organiser/login': typeof OrganiserLoginRoute
   '/pay/$token': typeof PayTokenRoute
   '/tickets/$token': typeof TicketsTokenRoute
   '/events/': typeof EventsIndexRoute
@@ -104,9 +128,11 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/checkout/$eventId'
     | '/events/$eventId'
     | '/orders/$token'
+    | '/organiser/login'
     | '/pay/$token'
     | '/tickets/$token'
     | '/events/'
@@ -115,9 +141,11 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/admin'
     | '/checkout/$eventId'
     | '/events/$eventId'
     | '/orders/$token'
+    | '/organiser/login'
     | '/pay/$token'
     | '/tickets/$token'
     | '/events'
@@ -126,9 +154,12 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
+    | '/_authenticated/admin'
     | '/checkout/$eventId'
     | '/events/$eventId'
     | '/orders/$token'
+    | '/organiser/login'
     | '/pay/$token'
     | '/tickets/$token'
     | '/events/'
@@ -138,9 +169,11 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   CheckoutEventIdRoute: typeof CheckoutEventIdRoute
   EventsEventIdRoute: typeof EventsEventIdRoute
   OrdersTokenRoute: typeof OrdersTokenRoute
+  OrganiserLoginRoute: typeof OrganiserLoginRoute
   PayTokenRoute: typeof PayTokenRoute
   TicketsTokenRoute: typeof TicketsTokenRoute
   EventsIndexRoute: typeof EventsIndexRoute
@@ -156,6 +189,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/checkout/$eventId': {
       id: '/checkout/$eventId'
@@ -183,6 +230,13 @@ declare module '@tanstack/react-router' {
       path: '/orders/$token'
       fullPath: '/orders/$token'
       preLoaderRoute: typeof OrdersTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/organiser/login': {
+      id: '/organiser/login'
+      path: '/organiser/login'
+      fullPath: '/organiser/login'
+      preLoaderRoute: typeof OrganiserLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pay/$token': {
@@ -216,11 +270,24 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRouteRoute: typeof AuthenticatedAdminRouteRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRouteRoute: AuthenticatedAdminRouteRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   CheckoutEventIdRoute: CheckoutEventIdRoute,
   EventsEventIdRoute: EventsEventIdRoute,
   OrdersTokenRoute: OrdersTokenRoute,
+  OrganiserLoginRoute: OrganiserLoginRoute,
   PayTokenRoute: PayTokenRoute,
   TicketsTokenRoute: TicketsTokenRoute,
   EventsIndexRoute: EventsIndexRoute,
