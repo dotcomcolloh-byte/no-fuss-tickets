@@ -13,6 +13,10 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as CheckoutEventIdRouteImport } from './routes/checkout.$eventId'
 import { Route as EventsIndexRouteImport } from './routes/events.index'
 import { Route as EventsEventIdRouteImport } from './routes/events.$eventId'
+import { Route as OrdersTokenRouteImport } from './routes/orders.$token'
+import { Route as PayTokenRouteImport } from './routes/pay.$token'
+import { Route as TicketsIndexRouteImport } from './routes/tickets.index'
+import { Route as TicketsTokenRouteImport } from './routes/tickets.$token'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 
 const IndexRoute = IndexRouteImport.update({
@@ -35,6 +39,26 @@ const EventsEventIdRoute = EventsEventIdRouteImport.update({
   path: '/events/$eventId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OrdersTokenRoute = OrdersTokenRouteImport.update({
+  id: '/orders/$token',
+  path: '/orders/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PayTokenRoute = PayTokenRouteImport.update({
+  id: '/pay/$token',
+  path: '/pay/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TicketsIndexRoute = TicketsIndexRouteImport.update({
+  id: '/tickets/',
+  path: '/tickets/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TicketsTokenRoute = TicketsTokenRouteImport.update({
+  id: '/tickets/$token',
+  path: '/tickets/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicPaymentsWebhookRoute =
   ApiPublicPaymentsWebhookRouteImport.update({
     id: '/api/public/payments/webhook',
@@ -46,14 +70,22 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/checkout/$eventId': typeof CheckoutEventIdRoute
   '/events/$eventId': typeof EventsEventIdRoute
+  '/orders/$token': typeof OrdersTokenRoute
+  '/pay/$token': typeof PayTokenRoute
+  '/tickets/$token': typeof TicketsTokenRoute
   '/events/': typeof EventsIndexRoute
+  '/tickets/': typeof TicketsIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/checkout/$eventId': typeof CheckoutEventIdRoute
   '/events/$eventId': typeof EventsEventIdRoute
+  '/orders/$token': typeof OrdersTokenRoute
+  '/pay/$token': typeof PayTokenRoute
+  '/tickets/$token': typeof TicketsTokenRoute
   '/events': typeof EventsIndexRoute
+  '/tickets': typeof TicketsIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesById {
@@ -61,7 +93,11 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/checkout/$eventId': typeof CheckoutEventIdRoute
   '/events/$eventId': typeof EventsEventIdRoute
+  '/orders/$token': typeof OrdersTokenRoute
+  '/pay/$token': typeof PayTokenRoute
+  '/tickets/$token': typeof TicketsTokenRoute
   '/events/': typeof EventsIndexRoute
+  '/tickets/': typeof TicketsIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRouteTypes {
@@ -70,21 +106,33 @@ export interface FileRouteTypes {
     | '/'
     | '/checkout/$eventId'
     | '/events/$eventId'
+    | '/orders/$token'
+    | '/pay/$token'
+    | '/tickets/$token'
     | '/events/'
+    | '/tickets/'
     | '/api/public/payments/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/checkout/$eventId'
     | '/events/$eventId'
+    | '/orders/$token'
+    | '/pay/$token'
+    | '/tickets/$token'
     | '/events'
+    | '/tickets'
     | '/api/public/payments/webhook'
   id:
     | '__root__'
     | '/'
     | '/checkout/$eventId'
     | '/events/$eventId'
+    | '/orders/$token'
+    | '/pay/$token'
+    | '/tickets/$token'
     | '/events/'
+    | '/tickets/'
     | '/api/public/payments/webhook'
   fileRoutesById: FileRoutesById
 }
@@ -92,7 +140,11 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CheckoutEventIdRoute: typeof CheckoutEventIdRoute
   EventsEventIdRoute: typeof EventsEventIdRoute
+  OrdersTokenRoute: typeof OrdersTokenRoute
+  PayTokenRoute: typeof PayTokenRoute
+  TicketsTokenRoute: typeof TicketsTokenRoute
   EventsIndexRoute: typeof EventsIndexRoute
+  TicketsIndexRoute: typeof TicketsIndexRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
 }
 
@@ -126,6 +178,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EventsEventIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/orders/$token': {
+      id: '/orders/$token'
+      path: '/orders/$token'
+      fullPath: '/orders/$token'
+      preLoaderRoute: typeof OrdersTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pay/$token': {
+      id: '/pay/$token'
+      path: '/pay/$token'
+      fullPath: '/pay/$token'
+      preLoaderRoute: typeof PayTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tickets/': {
+      id: '/tickets/'
+      path: '/tickets'
+      fullPath: '/tickets/'
+      preLoaderRoute: typeof TicketsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tickets/$token': {
+      id: '/tickets/$token'
+      path: '/tickets/$token'
+      fullPath: '/tickets/$token'
+      preLoaderRoute: typeof TicketsTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/payments/webhook': {
       id: '/api/public/payments/webhook'
       path: '/api/public/payments/webhook'
@@ -140,7 +220,11 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CheckoutEventIdRoute: CheckoutEventIdRoute,
   EventsEventIdRoute: EventsEventIdRoute,
+  OrdersTokenRoute: OrdersTokenRoute,
+  PayTokenRoute: PayTokenRoute,
+  TicketsTokenRoute: TicketsTokenRoute,
   EventsIndexRoute: EventsIndexRoute,
+  TicketsIndexRoute: TicketsIndexRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
 }
 export const routeTree = rootRouteImport
