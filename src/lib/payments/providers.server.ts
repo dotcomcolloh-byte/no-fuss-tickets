@@ -4,7 +4,7 @@
 
 export type ProviderVerifyResult = {
   status: "paid" | "failed" | "pending";
-  providerReference?: string;
+  providerReference?: string | undefined;
 };
 
 export type InitiateArgs = {

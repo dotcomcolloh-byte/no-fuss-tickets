@@ -98,7 +98,7 @@ function EventDetails() {
           <div className="fixed inset-x-0 bottom-0 z-30 border-t bg-card p-4 shadow-card md:static md:mt-4 md:rounded-2xl md:border">
             <div className="mx-auto max-w-md space-y-1 text-sm">
               {e.ticket_types.filter((t) => qty[t.id]).map((t) => (
-                <div key={t.id} className="flex justify-between text-muted-foreground"><span>{qty[t.id]} × {t.name}</span><span>{ksh(qty[t.id] * Number(t.price))}</span></div>
+                <div key={t.id} className="flex justify-between text-muted-foreground"><span>{qty[t.id]} × {t.name}</span><span>{ksh((qty[t.id] ?? 0) * Number(t.price))}</span></div>
               ))}
               {fees > 0 && <div className="flex justify-between text-muted-foreground"><span>Fees</span><span>{ksh(fees)}</span></div>}
               <div className="flex justify-between pt-1 text-base font-black"><span>Total</span><span>{ksh(subtotal + fees)}</span></div>

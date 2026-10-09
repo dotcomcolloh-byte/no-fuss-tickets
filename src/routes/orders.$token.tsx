@@ -37,7 +37,7 @@ function OrderPage() {
   };
   if (o.status !== "paid")
     return <PublicShell><div className="p-10 text-center">Payment not verified yet. <Link to="/pay/$token" params={{ token }} className="text-primary underline">Check status</Link></div></PublicShell>;
-  const pay = o.payments[0];
+  const pay = o.payments[0]!;
 
   return (
     <PublicShell>

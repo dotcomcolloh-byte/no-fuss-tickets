@@ -61,7 +61,7 @@ function Checkout() {
     const r = formSchema.safeParse(form);
     const errs: Record<string, string> = {};
     if (!r.success) r.error.issues.forEach((i) => (errs[i.path[0] as string] = i.message));
-    if (e?.require_id && !form.nationalId.trim()) errs.nationalId = "Required by the organiser";
+    if (e?.require_id && !form.nationalId.trim()) errs["nationalId"] = "Required by the organiser";
     setErrors(errs);
     if (Object.keys(errs).length) return;
     setBusy(true);

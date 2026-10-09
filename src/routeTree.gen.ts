@@ -20,6 +20,14 @@ import { Route as OrganiserLoginRouteImport } from './routes/organiser.login'
 import { Route as PayTokenRouteImport } from './routes/pay.$token'
 import { Route as TicketsIndexRouteImport } from './routes/tickets.index'
 import { Route as TicketsTokenRouteImport } from './routes/tickets.$token'
+import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
+import { Route as AuthenticatedAdminAttendanceRouteImport } from './routes/_authenticated/admin/attendance'
+import { Route as AuthenticatedAdminEventsRouteImport } from './routes/_authenticated/admin/events'
+import { Route as AuthenticatedAdminOrdersRouteImport } from './routes/_authenticated/admin/orders'
+import { Route as AuthenticatedAdminPaymentsRouteImport } from './routes/_authenticated/admin/payments'
+import { Route as AuthenticatedAdminScannerRouteImport } from './routes/_authenticated/admin/scanner'
+import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated/admin/settings'
+import { Route as AuthenticatedAdminTicketTypesRouteImport } from './routes/_authenticated/admin/ticket-types'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 
 const IndexRoute = IndexRouteImport.update({
@@ -76,6 +84,53 @@ const TicketsTokenRoute = TicketsTokenRouteImport.update({
   path: '/tickets/$token',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedAdminRouteRoute,
+} as any)
+const AuthenticatedAdminAttendanceRoute =
+  AuthenticatedAdminAttendanceRouteImport.update({
+    id: '/attendance',
+    path: '/attendance',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
+const AuthenticatedAdminEventsRoute =
+  AuthenticatedAdminEventsRouteImport.update({
+    id: '/events',
+    path: '/events',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
+const AuthenticatedAdminOrdersRoute =
+  AuthenticatedAdminOrdersRouteImport.update({
+    id: '/orders',
+    path: '/orders',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
+const AuthenticatedAdminPaymentsRoute =
+  AuthenticatedAdminPaymentsRouteImport.update({
+    id: '/payments',
+    path: '/payments',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
+const AuthenticatedAdminScannerRoute =
+  AuthenticatedAdminScannerRouteImport.update({
+    id: '/scanner',
+    path: '/scanner',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
+const AuthenticatedAdminSettingsRoute =
+  AuthenticatedAdminSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
+const AuthenticatedAdminTicketTypesRoute =
+  AuthenticatedAdminTicketTypesRouteImport.update({
+    id: '/ticket-types',
+    path: '/ticket-types',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
 const ApiPublicPaymentsWebhookRoute =
   ApiPublicPaymentsWebhookRouteImport.update({
     id: '/api/public/payments/webhook',
@@ -85,7 +140,7 @@ const ApiPublicPaymentsWebhookRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/admin': typeof AuthenticatedAdminRouteRoute
+  '/admin': typeof AuthenticatedAdminRouteRouteWithChildren
   '/checkout/$eventId': typeof CheckoutEventIdRoute
   '/events/$eventId': typeof EventsEventIdRoute
   '/orders/$token': typeof OrdersTokenRoute
@@ -94,11 +149,18 @@ export interface FileRoutesByFullPath {
   '/tickets/$token': typeof TicketsTokenRoute
   '/events/': typeof EventsIndexRoute
   '/tickets/': typeof TicketsIndexRoute
+  '/admin/attendance': typeof AuthenticatedAdminAttendanceRoute
+  '/admin/events': typeof AuthenticatedAdminEventsRoute
+  '/admin/orders': typeof AuthenticatedAdminOrdersRoute
+  '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
+  '/admin/scanner': typeof AuthenticatedAdminScannerRoute
+  '/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/admin/ticket-types': typeof AuthenticatedAdminTicketTypesRoute
+  '/admin/': typeof AuthenticatedAdminIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/admin': typeof AuthenticatedAdminRouteRoute
   '/checkout/$eventId': typeof CheckoutEventIdRoute
   '/events/$eventId': typeof EventsEventIdRoute
   '/orders/$token': typeof OrdersTokenRoute
@@ -107,13 +169,21 @@ export interface FileRoutesByTo {
   '/tickets/$token': typeof TicketsTokenRoute
   '/events': typeof EventsIndexRoute
   '/tickets': typeof TicketsIndexRoute
+  '/admin/attendance': typeof AuthenticatedAdminAttendanceRoute
+  '/admin/events': typeof AuthenticatedAdminEventsRoute
+  '/admin/orders': typeof AuthenticatedAdminOrdersRoute
+  '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
+  '/admin/scanner': typeof AuthenticatedAdminScannerRoute
+  '/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/admin/ticket-types': typeof AuthenticatedAdminTicketTypesRoute
+  '/admin': typeof AuthenticatedAdminIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
-  '/_authenticated/admin': typeof AuthenticatedAdminRouteRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRouteRouteWithChildren
   '/checkout/$eventId': typeof CheckoutEventIdRoute
   '/events/$eventId': typeof EventsEventIdRoute
   '/orders/$token': typeof OrdersTokenRoute
@@ -122,6 +192,14 @@ export interface FileRoutesById {
   '/tickets/$token': typeof TicketsTokenRoute
   '/events/': typeof EventsIndexRoute
   '/tickets/': typeof TicketsIndexRoute
+  '/_authenticated/admin/attendance': typeof AuthenticatedAdminAttendanceRoute
+  '/_authenticated/admin/events': typeof AuthenticatedAdminEventsRoute
+  '/_authenticated/admin/orders': typeof AuthenticatedAdminOrdersRoute
+  '/_authenticated/admin/payments': typeof AuthenticatedAdminPaymentsRoute
+  '/_authenticated/admin/scanner': typeof AuthenticatedAdminScannerRoute
+  '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/_authenticated/admin/ticket-types': typeof AuthenticatedAdminTicketTypesRoute
+  '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRouteTypes {
@@ -137,11 +215,18 @@ export interface FileRouteTypes {
     | '/tickets/$token'
     | '/events/'
     | '/tickets/'
+    | '/admin/attendance'
+    | '/admin/events'
+    | '/admin/orders'
+    | '/admin/payments'
+    | '/admin/scanner'
+    | '/admin/settings'
+    | '/admin/ticket-types'
+    | '/admin/'
     | '/api/public/payments/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/admin'
     | '/checkout/$eventId'
     | '/events/$eventId'
     | '/orders/$token'
@@ -150,6 +235,14 @@ export interface FileRouteTypes {
     | '/tickets/$token'
     | '/events'
     | '/tickets'
+    | '/admin/attendance'
+    | '/admin/events'
+    | '/admin/orders'
+    | '/admin/payments'
+    | '/admin/scanner'
+    | '/admin/settings'
+    | '/admin/ticket-types'
+    | '/admin'
     | '/api/public/payments/webhook'
   id:
     | '__root__'
@@ -164,6 +257,14 @@ export interface FileRouteTypes {
     | '/tickets/$token'
     | '/events/'
     | '/tickets/'
+    | '/_authenticated/admin/attendance'
+    | '/_authenticated/admin/events'
+    | '/_authenticated/admin/orders'
+    | '/_authenticated/admin/payments'
+    | '/_authenticated/admin/scanner'
+    | '/_authenticated/admin/settings'
+    | '/_authenticated/admin/ticket-types'
+    | '/_authenticated/admin/'
     | '/api/public/payments/webhook'
   fileRoutesById: FileRoutesById
 }
@@ -260,6 +361,62 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TicketsTokenRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin/': {
+      id: '/_authenticated/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
+    '/_authenticated/admin/attendance': {
+      id: '/_authenticated/admin/attendance'
+      path: '/attendance'
+      fullPath: '/admin/attendance'
+      preLoaderRoute: typeof AuthenticatedAdminAttendanceRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
+    '/_authenticated/admin/events': {
+      id: '/_authenticated/admin/events'
+      path: '/events'
+      fullPath: '/admin/events'
+      preLoaderRoute: typeof AuthenticatedAdminEventsRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
+    '/_authenticated/admin/orders': {
+      id: '/_authenticated/admin/orders'
+      path: '/orders'
+      fullPath: '/admin/orders'
+      preLoaderRoute: typeof AuthenticatedAdminOrdersRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
+    '/_authenticated/admin/payments': {
+      id: '/_authenticated/admin/payments'
+      path: '/payments'
+      fullPath: '/admin/payments'
+      preLoaderRoute: typeof AuthenticatedAdminPaymentsRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
+    '/_authenticated/admin/scanner': {
+      id: '/_authenticated/admin/scanner'
+      path: '/scanner'
+      fullPath: '/admin/scanner'
+      preLoaderRoute: typeof AuthenticatedAdminScannerRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
+    '/_authenticated/admin/settings': {
+      id: '/_authenticated/admin/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AuthenticatedAdminSettingsRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
+    '/_authenticated/admin/ticket-types': {
+      id: '/_authenticated/admin/ticket-types'
+      path: '/ticket-types'
+      fullPath: '/admin/ticket-types'
+      preLoaderRoute: typeof AuthenticatedAdminTicketTypesRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
     '/api/public/payments/webhook': {
       id: '/api/public/payments/webhook'
       path: '/api/public/payments/webhook'
@@ -270,12 +427,40 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedAdminRouteRouteChildren {
+  AuthenticatedAdminAttendanceRoute: typeof AuthenticatedAdminAttendanceRoute
+  AuthenticatedAdminEventsRoute: typeof AuthenticatedAdminEventsRoute
+  AuthenticatedAdminOrdersRoute: typeof AuthenticatedAdminOrdersRoute
+  AuthenticatedAdminPaymentsRoute: typeof AuthenticatedAdminPaymentsRoute
+  AuthenticatedAdminScannerRoute: typeof AuthenticatedAdminScannerRoute
+  AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
+  AuthenticatedAdminTicketTypesRoute: typeof AuthenticatedAdminTicketTypesRoute
+  AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+}
+
+const AuthenticatedAdminRouteRouteChildren: AuthenticatedAdminRouteRouteChildren =
+  {
+    AuthenticatedAdminAttendanceRoute: AuthenticatedAdminAttendanceRoute,
+    AuthenticatedAdminEventsRoute: AuthenticatedAdminEventsRoute,
+    AuthenticatedAdminOrdersRoute: AuthenticatedAdminOrdersRoute,
+    AuthenticatedAdminPaymentsRoute: AuthenticatedAdminPaymentsRoute,
+    AuthenticatedAdminScannerRoute: AuthenticatedAdminScannerRoute,
+    AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
+    AuthenticatedAdminTicketTypesRoute: AuthenticatedAdminTicketTypesRoute,
+    AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+  }
+
+const AuthenticatedAdminRouteRouteWithChildren =
+  AuthenticatedAdminRouteRoute._addFileChildren(
+    AuthenticatedAdminRouteRouteChildren,
+  )
+
 interface AuthenticatedRouteRouteChildren {
-  AuthenticatedAdminRouteRoute: typeof AuthenticatedAdminRouteRoute
+  AuthenticatedAdminRouteRoute: typeof AuthenticatedAdminRouteRouteWithChildren
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedAdminRouteRoute: AuthenticatedAdminRouteRoute,
+  AuthenticatedAdminRouteRoute: AuthenticatedAdminRouteRouteWithChildren,
 }
 
 const AuthenticatedRouteRouteWithChildren =
