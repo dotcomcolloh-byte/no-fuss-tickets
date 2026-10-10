@@ -1,13 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { PageTitle } from "./route";
-
-export const Route = createFileRoute("/_authenticated/admin/events")({ component: Page });
-
-function Page() {
-  return (
-    <div>
-      <PageTitle title="Events" />
-      <p className="rounded-2xl border bg-card p-6 text-sm text-muted-foreground">This section is coming next.</p>
-    </div>
-  );
-}
+import { createFileRoute } from '@tanstack/react-router';
+import { adminQuery } from '@/lib/admin-query';
+import { adminHead } from '@/lib/admin-utils';
+import { EventsAdmin } from '@/components/admin/events';
+export const Route = createFileRoute('/_authenticated/admin/events')({
+  head: () => adminHead('Events', 'Manage events for Tumdo Kalenjin Connect events.'),
+  loader: ({ context }) => context.queryClient.ensureQueryData(adminQuery),
+  component: EventsAdmin,
+});

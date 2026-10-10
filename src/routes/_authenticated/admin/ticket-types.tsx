@@ -1,13 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { PageTitle } from "./route";
-
-export const Route = createFileRoute("/_authenticated/admin/ticket-types")({ component: Page });
-
-function Page() {
-  return (
-    <div>
-      <PageTitle title="Ticket types" />
-      <p className="rounded-2xl border bg-card p-6 text-sm text-muted-foreground">This section is coming next.</p>
-    </div>
-  );
-}
+import { createFileRoute } from '@tanstack/react-router';
+import { adminQuery } from '@/lib/admin-query';
+import { adminHead } from '@/lib/admin-utils';
+import { TicketTypesAdmin } from '@/components/admin/ticket-types';
+export const Route = createFileRoute('/_authenticated/admin/ticket-types')({
+  head: () => adminHead('Ticket Types', 'Manage ticket types for Tumdo Kalenjin Connect events.'),
+  loader: ({ context }) => context.queryClient.ensureQueryData(adminQuery),
+  component: TicketTypesAdmin,
+});

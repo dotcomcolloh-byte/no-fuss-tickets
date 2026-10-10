@@ -127,7 +127,7 @@
 
 @layer base {
   html { font-family: var(--font-sans); -webkit-tap-highlight-color: transparent; }
-  h1, h2, h3 { letter-spacing: -0.02em; }
+  h1, h2, h3 { letter-spacing: 0; }
 }
 @utility bg-brand { background-image: var(--gradient-brand); }
 @utility bg-hero-fade { background-image: var(--gradient-hero); }
@@ -139,3 +139,11 @@
 @utility animate-fade-up { animation: fade-up .5s ease-out both; }
 @utility animate-pop { animation: pop .5s ease-out both; }
 @utility animate-scanline { animation: scanline 2.4s ease-in-out infinite; }
+
+.admin-table { width: 100%; border-collapse: collapse; font-size: .8125rem; text-align: left; }
+.admin-table th { padding: 12px; background: var(--muted); color: var(--muted-foreground); font-size: .6875rem; font-weight: 700; white-space: nowrap; }
+.admin-table td { padding: 14px 12px; border-top: 1px solid var(--border); vertical-align: middle; }
+.admin-table tbody tr:hover { background: var(--secondary); }
+.admin-table td small { overflow-wrap: anywhere; }
+.admin-table td { min-width: 90px; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
