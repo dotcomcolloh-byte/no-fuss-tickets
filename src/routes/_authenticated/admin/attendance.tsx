@@ -1,13 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { PageTitle } from "./route";
-
-export const Route = createFileRoute("/_authenticated/admin/attendance")({ component: Page });
-
-function Page() {
-  return (
-    <div>
-      <PageTitle title="Attendance" />
-      <p className="rounded-2xl border bg-card p-6 text-sm text-muted-foreground">This section is coming next.</p>
-    </div>
-  );
-}
+import { createFileRoute } from '@tanstack/react-router';
+import { adminQuery } from '@/lib/admin-query';
+import { adminHead } from '@/lib/admin-utils';
+import { AttendanceAdmin } from '@/components/admin/attendance';
+export const Route = createFileRoute('/_authenticated/admin/attendance')({
+  head: () => adminHead('Attendance', 'Manage attendance for Tumdo Kalenjin Connect events.'),
+  loader: ({ context }) => context.queryClient.ensureQueryData(adminQuery),
+  component: AttendanceAdmin,
+});

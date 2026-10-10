@@ -1,0 +1,10 @@
+import type { ReactNode } from 'react';
+import { Download, Search } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+export function Title({ title, children }: { title: string; children?: ReactNode }) { return <div className="mb-6 flex flex-wrap items-center justify-between gap-3"><h1 className="text-2xl font-extrabold">{title}</h1><div className="flex flex-wrap gap-2">{children}</div></div>; }
+export function Filters({ search, onSearch, children, onExport }: { search: string; onSearch: (value: string) => void; children?: ReactNode; onExport?: () => void }) { return <div className="mb-5 flex flex-wrap items-center gap-3"><div className="relative min-w-48 flex-1"><Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground"/><Input aria-label="Search records" placeholder="Search records…" value={search} onChange={e => onSearch(e.target.value)} className="pl-9"/></div>{children}{onExport && <Button variant="outline" onClick={onExport}><Download/>Export CSV</Button>}</div>; }
+export function Select({ label, value, onChange, children }: { label: string; value: string; onChange: (v: string) => void; children: ReactNode }) { return <select aria-label={label} value={value} onChange={e => onChange(e.target.value)} className="h-10 max-w-full rounded-md border bg-background px-3 text-sm">{children}</select>; }
+export function Field({ label, children }: { label: string; children: ReactNode }) { return <label className="grid gap-1.5 text-sm font-semibold">{label}{children}</label>; }
+export function Empty({ children = 'No matching records.' }: { children?: ReactNode }) { return <p className="py-12 text-center text-sm text-muted-foreground">{children}</p>; }
+export function Stat({ label, value, icon }: { label: string; value: ReactNode; icon?: ReactNode }) { return <div className="rounded-lg border bg-card p-4 shadow-card"><div className="mb-3 flex items-center justify-between text-xs font-semibold text-muted-foreground">{label}<span className="text-primary">{icon}</span></div><p className="break-words text-2xl font-extrabold">{value}</p></div>; }

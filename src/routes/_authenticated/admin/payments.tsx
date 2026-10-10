@@ -1,13 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { PageTitle } from "./route";
-
-export const Route = createFileRoute("/_authenticated/admin/payments")({ component: Page });
-
-function Page() {
-  return (
-    <div>
-      <PageTitle title="Payments" />
-      <p className="rounded-2xl border bg-card p-6 text-sm text-muted-foreground">This section is coming next.</p>
-    </div>
-  );
-}
+import { createFileRoute } from '@tanstack/react-router';
+import { adminQuery } from '@/lib/admin-query';
+import { adminHead } from '@/lib/admin-utils';
+import { RecordsAdmin } from '@/components/admin/records';
+export const Route = createFileRoute('/_authenticated/admin/payments')({
+  head: () => adminHead('Payment Records', 'Manage payment records for Tumdo Kalenjin Connect events.'),
+  loader: ({ context }) => context.queryClient.ensureQueryData(adminQuery),
+  component: () => <RecordsAdmin payments />,
+});

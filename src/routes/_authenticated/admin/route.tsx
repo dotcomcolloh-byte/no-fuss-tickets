@@ -4,10 +4,12 @@ import { useState } from "react";
 import { LayoutDashboard, CalendarDays, Ticket, ShoppingBag, CreditCard, Users, ScanLine, Settings, LogOut, Menu, X, Tags } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Logo } from "@/components/brand";
+import { Button } from "@/components/ui/button";
+import { adminHead } from "@/lib/admin-utils";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/admin")({
-  head: () => ({ meta: [{ title: "Organiser Dashboard — Tumdo Kalenjin Connect" }, { name: "robots", content: "noindex" }] }),
+  head: () => adminHead("Organiser Workspace", "Manage Tumdo Kalenjin Connect events, sales and gate admission."),
   component: AdminLayout,
 });
 
@@ -45,7 +47,7 @@ function AdminLayout() {
       <div className="grid min-h-screen place-items-center p-6 text-center">
         <div>
           <p className="text-lg font-bold">This account doesn't have organiser access.</p>
-          <button onClick={signOut} className="mt-4 rounded-full bg-primary px-5 py-2 font-bold text-primary-foreground">Sign out</button>
+          <Button onClick={signOut} className="mt-4 rounded-full bg-primary px-5 py-2 font-bold text-primary-foreground">Sign out</Button>
         </div>
       </div>
     );
@@ -60,9 +62,9 @@ function AdminLayout() {
           </Link>
         );
       })}
-      <button onClick={signOut} className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-muted-foreground hover:bg-accent">
+      <Button variant="ghost" onClick={signOut} className="justify-start flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-muted-foreground hover:bg-accent">
         <LogOut className="h-4 w-4" /> Sign out
-      </button>
+      </Button>
     </nav>
   );
 
@@ -70,7 +72,7 @@ function AdminLayout() {
     <div className="min-h-screen bg-muted/50">
       <header className="sticky top-0 z-40 flex h-14 items-center justify-between bg-primary px-4 text-primary-foreground shadow-red">
         <Link to="/admin"><Logo /></Link>
-        <button className="lg:hidden" onClick={() => setOpen(!open)} aria-label="Menu">{open ? <X /> : <Menu />}</button>
+        <Button variant="ghost" size="icon" className="lg:hidden" onClick={() => setOpen(!open)} aria-label="Menu">{open ? <X /> : <Menu />}</Button>
         <Link to="/" className="hidden text-xs font-semibold underline lg:block">View public site</Link>
       </header>
       <div className="flex">
