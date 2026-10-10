@@ -67,7 +67,8 @@ function Checkout() {
     setBusy(true);
     try {
       const res = await pay({ data: { eventId, items, ...form, method, idempotencyKey: idem } });
-      nav({ to: "/pay/$token", params: { token: res.orderToken } });
+      if (res.redirectUrl) window.location.href = res.redirectUrl;
+      else nav({ to: "/pay/$token", params: { token: res.orderToken } });
     } catch (err) {
       setServerError(err instanceof Error ? err.message : "Payment could not be started");
       setBusy(false);

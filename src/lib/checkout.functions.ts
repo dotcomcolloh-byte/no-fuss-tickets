@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+import { getRequest } from "@tanstack/react-start/server";
 
 export const FEE_RATE = 0; // booking fee as fraction of subtotal
 
@@ -26,6 +27,8 @@ export const createOrderAndPay = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { getProvider } = await import("./payments/providers.server");
+    const { enforceRateLimit } = await import("./rate-limit.server");
+    await enforceRateLimit("pay", 5, 60);
 
     // Duplicate-submit protection
     const { data: existing } = await supabaseAdmin
@@ -105,6 +108,8 @@ export const createOrderAndPay = createServerFn({ method: "POST" })
       phone: data.phone,
       email: data.email,
       reference: payment.transaction_ref,
+      method: data.method,
+      callbackUrl: `${new URL(getRequest().url).origin}/pay/${order.access_token}`,
     });
     await supabaseAdmin
       .from("payments")
@@ -116,7 +121,7 @@ export const createOrderAndPay = createServerFn({ method: "POST" })
       .eq("id", payment.id);
     await supabaseAdmin.from("orders").update({ status: "processing" }).eq("id", order.id);
 
-    return { orderToken: order.access_token };
+    return { orderToken: order.access_token, redirectUrl: init.redirectUrl ?? null };
   });
 
 const tokenSchema = z.object({ token: z.string().regex(/^[a-f0-9]{48}$/) });
@@ -127,6 +132,8 @@ export const getOrderStatus = createServerFn({ method: "GET" })
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { verifyAndFulfil } = await import("./payments/fulfil.server");
+    const { enforceRateLimit } = await import("./rate-limit.server");
+    await enforceRateLimit("status", 60, 60);
     const load = () =>
       supabaseAdmin
         .from("orders")
@@ -203,6 +210,8 @@ export const lookupTicket = createServerFn({ method: "POST" })
       .parse(d),
   )
   .handler(async ({ data }) => {
+    const { enforceRateLimit } = await import("./rate-limit.server");
+    await enforceRateLimit("lookup", 10, 60);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: t } = await supabaseAdmin
       .from("tickets")
