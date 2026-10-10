@@ -8,6 +8,7 @@ import { PublicShell } from "@/components/brand";
 import { publicEventQuery } from "@/lib/events";
 import { ksh, fmtDate } from "@/lib/format";
 import { createOrderAndPay, FEE_RATE } from "@/lib/checkout.functions";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/checkout/$eventId")({
@@ -52,7 +53,7 @@ function Checkout() {
 
   const items = sel.split(",").filter(Boolean).map((p) => { const [id, q] = p.split(":"); return { ticketTypeId: id, quantity: Number(q) }; });
   const lines = e ? items.map((i) => ({ ...i, t: e.ticket_types.find((t) => t.id === i.ticketTypeId) })).filter((l) => l.t) : [];
-  const subtotal = lines.reduce((s, l) => s + l.quantity * Number(l.t!.price), 0);
+  const subtotal = lines.reduce((s, l) => s + l.quantity * Number(l.t?.price ?? 0), 0);
   const fees = Math.round(subtotal * FEE_RATE);
 
   async function submit(ev: React.FormEvent) {
@@ -117,14 +118,14 @@ function Checkout() {
               type="button"
               key={m.id}
               onClick={() => setMethod(m.id)}
-              className={cn("flex w-full items-center gap-3 rounded-xl border p-3 text-left text-sm transition", method === m.id && "border-primary bg-accent")}
+              className={cn("h-auto w-full justify-start gap-3 rounded-xl border p-3 text-left text-sm transition", method === m.id && "border-primary bg-accent")}
             >
               <span className={cn("grid h-4 w-4 place-items-center rounded-full border-2", method === m.id ? "border-primary" : "border-input")}>
                 {method === m.id && <span className="h-2 w-2 rounded-full bg-primary" />}
               </span>
               <m.icon className="h-5 w-5 text-primary" />
               {m.label}
-            </button>
+            </Button>
           ))}
         </section>
 
@@ -134,8 +135,8 @@ function Checkout() {
           <p className="text-xs text-muted-foreground">{fmtDate(e.event_date)} · {e.venue}</p>
           {lines.map((l) => (
             <div key={l.ticketTypeId} className="flex justify-between">
-              <span>{l.t!.name} · {l.quantity} × {ksh(l.t!.price)}</span>
-              <span>{ksh(l.quantity * Number(l.t!.price))}</span>
+              <span>{l.t?.name} · {l.quantity} × {ksh(l.t?.price ?? 0)}</span>
+              <span>{ksh(l.quantity * Number(l.t?.price ?? 0))}</span>
             </div>
           ))}
           <div className="flex justify-between text-muted-foreground"><span>Fees</span><span>{ksh(fees)}</span></div>
@@ -144,9 +145,9 @@ function Checkout() {
 
         {serverError && <p className="rounded-xl bg-destructive/10 p-3 text-sm text-destructive">{serverError}</p>}
 
-        <button disabled={busy} className="flex w-full items-center justify-center gap-2 rounded-full bg-primary py-3.5 font-bold text-primary-foreground shadow-red disabled:opacity-60">
-          {busy && <Loader2 className="h-4 w-4 animate-spin" />} Pay Now · {ksh(subtotal + fees)}
-        </button>
+        <Button type="submit" disabled={busy} className="h-12 w-full rounded-full font-bold shadow-red">
+          {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <CreditCard className="h-4 w-4" />} {busy ? "Connecting to Paystack…" : "Pay with Paystack"} · {ksh(subtotal + fees)}
+        </Button>
         <p className="flex items-center justify-center gap-1.5 text-center text-[11px] text-muted-foreground">
           <Lock className="h-3 w-3" /> Your payment is securely processed and verified before your ticket is issued.
         </p>
