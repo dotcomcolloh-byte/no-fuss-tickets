@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { StatusPill } from '@/routes/_authenticated/admin/route';
 import { Title, Stat, Empty } from './shared';
 export function DashboardAdmin() {
- const {data}=useSuspenseQuery(adminQuery);const verified=data.payments.filter(p=>p.status==='paid'&&p.verification_status==='verified');
+ const {data}=useSuspenseQuery(adminQuery);const verified=data.payments.filter(p=>p.status==='paid'&&p.verification_status==='verified'&&p.provider==='paystack');
  const sales=verified.reduce((s,p)=>s+Number(p.amount),0);const used=data.tickets.filter(t=>t.status==='used').length;
  const days=Array.from({length:7},(_,i)=>{const date=new Date();date.setDate(date.getDate()-6+i);const key=date.toISOString().slice(0,10);return {name:date.toLocaleDateString('en-KE',{weekday:'short'}),sales:verified.filter(p=>(p.paid_at??p.created_at).slice(0,10)===key).reduce((s,p)=>s+Number(p.amount),0)};});
  const events=data.events.map(e=>({name:e.name,sold:data.types.filter(t=>t.event_id===e.id).reduce((s,t)=>s+t.sold,0),attendance:data.tickets.filter(t=>t.event_id===e.id&&t.status==='used').length}));
