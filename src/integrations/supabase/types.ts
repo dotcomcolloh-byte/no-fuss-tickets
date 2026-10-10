@@ -335,6 +335,24 @@ export type Database = {
           },
         ]
       }
+      rate_limits: {
+        Row: {
+          hits: number
+          key: string
+          window_start: string
+        }
+        Insert: {
+          hits?: number
+          key: string
+          window_start?: string
+        }
+        Update: {
+          hits?: number
+          key?: string
+          window_start?: string
+        }
+        Relationships: []
+      }
       ticket_scans: {
         Row: {
           event_id: string | null
@@ -558,6 +576,10 @@ export type Database = {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
         }
+        Returns: boolean
+      }
+      hit_rate_limit: {
+        Args: { _key: string; _limit: number; _window_seconds: number }
         Returns: boolean
       }
       is_staff: { Args: never; Returns: boolean }
