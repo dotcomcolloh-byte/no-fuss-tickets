@@ -114,7 +114,7 @@ function Checkout() {
         <section className="space-y-2 rounded-2xl border bg-card p-4 shadow-card">
           <h2 className="flex items-center gap-2 text-sm font-bold"><Lock className="h-4 w-4 text-primary" />Payment Method</h2>
           {METHODS.map((m) => (
-            <button
+            <Button variant="outline"
               type="button"
               key={m.id}
               onClick={() => setMethod(m.id)}
