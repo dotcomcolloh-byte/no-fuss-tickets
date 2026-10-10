@@ -8,7 +8,7 @@ export async function verifyAndFulfil(paymentId: string) {
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   const { data: payment, error } = await supabaseAdmin
     .from("payments")
-    .select("id, order_id, provider, provider_reference, provider_payload, status")
+    .select("id, order_id, provider, provider_reference, provider_payload, status, amount, currency")
     .eq("id", paymentId)
     .single();
   if (error || !payment) throw new Error("Payment not found");

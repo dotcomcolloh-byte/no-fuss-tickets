@@ -8,3 +8,7 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Payments go through `src/lib/payments/providers.server.ts`; tickets are issued only by `fulfill_order` after server-side provider verification — never trust the browser.
+- Sandbox payments run only when PAYMENT_SANDBOX="true"; default is real provider so production never fakes success.
+- Rate limiting uses the `hit_rate_limit` SQL function keyed by action+IP (or staff user for scans) — no platform primitive exists.
